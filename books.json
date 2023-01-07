@@ -1,0 +1,32 @@
+[
+  {
+    "title": "It ends with us",
+    "id": 4389754,
+    "author": "Coleen Hoover",
+    "price": 129
+  },
+  {
+    "title": "Murder on the Orient Express",
+    "id": 4358725,
+    "author": "Agatha Christie",
+    "price": 99
+  },
+  {
+    "title": "The Mangle Street Murders",
+    "id": 4387548,
+    "author": "M R C Kasasian",
+    "price": 69
+  },
+  {
+    "title": "The Magicians",
+    "id": 385745,
+    "author": "Lev Grossman",
+    "price": 119
+  },
+  {
+    "title": "Harry Potter",
+    "id": 3857453,
+    "author": "J.K. Rowling",
+    "price": 139
+  }
+]

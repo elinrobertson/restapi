@@ -1,0 +1,18 @@
+GET http://localhost:3000/books
+
+###
+
+DELETE http://localhost:3000/books/4389754
+
+
+###
+
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "title": "Harry Potter",
+    "id": 3857453,
+    "author": "J.K. Rowling",
+    "price": 139
+}
