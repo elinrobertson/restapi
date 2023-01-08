@@ -16,3 +16,15 @@ Content-Type: application/json
     "author": "J.K. Rowling",
     "price": 139
 }
+
+###
+
+PUT http://localhost:3000/books/3857458
+Content-Type: application/json
+
+  {
+    "title": "The Magicians",
+    "id": 3857458,
+    "author": "Lev Grossman",
+    "price": 89
+  }

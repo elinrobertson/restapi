@@ -1,3 +1,4 @@
+const { json } = require("express");
 const express = require("express");
 const app = express();
 const fs = require("fs");
@@ -33,14 +34,13 @@ app.post("/books", function(req, res, next) {
     })
 })
 
-app.delete("books/:id", (req, res) => {
-
+app.delete("/books/:id", (req, res) => {
     fs.readFile("books.json", (err, data) => {
       if (err) {  
         res.status(404);
       }
     let parsedData = JSON.parse(data);
-    const book = parsedData.find((book) => book.id === req.params.id);
+    const book = parsedData.find((book) => book.id == req.params.id);
     const index = parsedData.findIndex((b) => b.id === book.id);
   
     parsedData.splice(index, 1);
@@ -51,9 +51,32 @@ app.delete("books/:id", (req, res) => {
      console.log(err);
         }
     });
-    res.status(200).json("Book removed");
+    res.status(200).json("Book with " + req.params.id + " removed");
     });
 });
+
+app.put("/books/:id", (req,res) => {
+    fs.readFile("books.json", (err, data) => {
+        if (err) {
+            res.status(404);
+        }
+
+        let newData = JSON.parse(data);
+        const price = newData.find((book) => book.id == req.params.id);
+        const changes = req.body;
+    
+        const i = newData.findIndex((p) => p.id === book.id);
+         
+    fs.writeFile("books.json",JSON.stringify(newData, null, 2),
+        function (err) {
+    if (err) {
+     console.log(err);
+        }
+    });
+    res.status(200).json(req.body);
+    });
+
+    });
 
 
 
