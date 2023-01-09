@@ -8,7 +8,7 @@ app.use(express.json())
 app.get("/books", function(req,res){
     fs.readFile("books.json", function (err, data){
         if (err) {
-            console.log(err);
+            return res.status(404).json("Not found");
         }
     const books = JSON.parse(data)
     res.status(200).send(books)
@@ -19,7 +19,7 @@ app.get("/books", function(req,res){
 app.post("/books", function(req, res) {
     fs.readFile("books.json", (err, data) =>{
         if (err) {
-            console.log(err);
+            return res.status(404).json("Not found");
         }
         const books = JSON.parse(data)
 
@@ -27,17 +27,17 @@ app.post("/books", function(req, res) {
 
         fs.writeFile("books.json", JSON.stringify(books, null, 2), function(err){
             if (err) {
-                console.log(err);
+                return res.status(404).json("Not found");
             }
         })
-        res.status(201).json(req.body)
+        res.status(201).json("New book added")
     })
 })
 
 app.delete("/books/:id", (req, res) => {
     fs.readFile("books.json", (err, data) => {
       if (err) {  
-        res.status(404);
+        return res.status(404).json("Not found");
       }
     let parsedData = JSON.parse(data);
     const book = parsedData.find((book) => book.id == req.params.id);
@@ -48,7 +48,7 @@ app.delete("/books/:id", (req, res) => {
     fs.writeFile("books.json", JSON.stringify(parsedData, null, 2),
     function (err) {
     if (err) {
-     console.log(err);
+        return res.status(404).json("Not found");
         }
     });
     res.status(200).json("Book with " + req.params.id + " removed");
@@ -58,23 +58,27 @@ app.delete("/books/:id", (req, res) => {
 app.put("/books/:id", (req,res) => {
     fs.readFile("books.json", (err, data) => {
         if (err) {
-            res.status(err);
+            return res.status(404).json("Not found");
         }
 
         let newData = JSON.parse(data);
-        const price = newData.find((book) => book.id == req.params.id);
-        const changes = req.body;
-    
-        const i = newData.findIndex((p) => p.id === changes.id);
+        newData.find((book) => {
+            if (book.id == req.params.id) {
+                book.id = req.body.id;
+                book.price = req.body.price; 
+                book.author = req.body.author;
+                book.title = req.body.title;
+            } 
+        })
         
          
     fs.writeFile("books.json",JSON.stringify(newData, null, 2),
         function (err) {
     if (err) {
-     console.log(err);
+        return res.status(404).json("Not found");
         }
     });
-    res.status(200).json(req.body);
+    res.status(200).json("Price updated on book with " + req.params.id);
     });
     
 });
