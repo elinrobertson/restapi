@@ -16,7 +16,7 @@ app.get("/books", function(req,res){
     })
 });
 
-app.post("/books", function(req, res, next) {
+app.post("/books", function(req, res) {
     fs.readFile("books.json", (err, data) =>{
         if (err) {
             console.log(err);
@@ -45,7 +45,7 @@ app.delete("/books/:id", (req, res) => {
   
     parsedData.splice(index, 1);
   
-    fs.writeFile("books.json",JSON.stringify(parsedData, null, 2),
+    fs.writeFile("books.json", JSON.stringify(parsedData, null, 2),
     function (err) {
     if (err) {
      console.log(err);
@@ -58,14 +58,15 @@ app.delete("/books/:id", (req, res) => {
 app.put("/books/:id", (req,res) => {
     fs.readFile("books.json", (err, data) => {
         if (err) {
-            res.status(404);
+            res.status(err);
         }
 
         let newData = JSON.parse(data);
         const price = newData.find((book) => book.id == req.params.id);
         const changes = req.body;
     
-        const i = newData.findIndex((p) => p.id === book.id);
+        const i = newData.findIndex((p) => p.id === changes.id);
+        
          
     fs.writeFile("books.json",JSON.stringify(newData, null, 2),
         function (err) {
@@ -75,10 +76,8 @@ app.put("/books/:id", (req,res) => {
     });
     res.status(200).json(req.body);
     });
-
-    });
-
-
+    
+});
 
 
 app.listen(3000, () => console.log("Server is up on http://localhost:3000"));
